@@ -19,27 +19,3 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
-// Light - Dark
-$element-light: hsl(0, 100%, 100%);
-$bg-light: hsl(0, 0%, 99%);
-$text-light: hsl(200, 15%, 8%);
-$input-light: hsl(0, 0%, 50%);
-
-$element-dark: hsl(209, 23%, 22%);
-$bg-dark: hsl(207, 26%, 17%);
-$text-dark: hsl(0, 100%, 100%);
-
-$color-mode-type: data;
-
-@include color-mode(light) {
-  body {
-    background-color: $bg-light;
-    color: $text-light;
-  }
-}
-@include color-mode(dark) {
-  body {
-    background-color: $bg-dark;
-    color: $text-dark;
-  }
-}

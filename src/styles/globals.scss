@@ -1,8 +1,9 @@
-$sass-legacy-debug-info: false;
-
 @import "./bootstrap-custom.scss";
 
 @import "fonts";
 @import "common";
 
 @import "int";
+
+@import "./pages";
+@import "./components";

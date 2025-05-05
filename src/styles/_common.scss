@@ -1,9 +1,44 @@
+@import "bootstrap/scss/functions";
+
 * {
   margin: 0;
   padding: 0;
 }
 body {
   transition: all 0.3s;
+}
+
+// Light - Dark
+$element-light: hsl(0, 100%, 100%);
+$bg-light: hsl(0, 0%, 99%);
+$text-light: hsl(200, 15%, 8%);
+$input-light: hsl(0, 0%, 50%);
+
+$element-dark: hsl(209, 23%, 22%);
+$bg-dark: hsl(207, 26%, 17%);
+$text-dark: hsl(0, 100%, 100%);
+
+$color-mode-type: data;
+
+@include color-mode(light) {
+  body {
+    background-color: $bg-light;
+    color: $text-light;
+  }
+  .element {
+    background-color: $element-light !important;
+    color: $text-light !important;
+  }
+}
+@include color-mode(dark) {
+  body {
+    background-color: $bg-dark;
+    color: $text-dark;
+  }
+  .element {
+    background-color: $element-dark !important;
+    color: $text-dark !important;
+  }
 }
 
 h1,
@@ -32,4 +67,9 @@ a {
 .no-transition {
   transition: none !important;
   animation: none !important;
+}
+
+.d-stack{
+  display: flex;
+  flex-direction: column;
 }

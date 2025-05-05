@@ -1,0 +1,12 @@
+@import "bootstrap/scss/functions";
+
+@include color-mode(light) {
+  header {
+    background-color: $element-light;
+  }
+}
+@include color-mode(dark) {
+  header {
+    background-color: $element-dark;
+  }
+}

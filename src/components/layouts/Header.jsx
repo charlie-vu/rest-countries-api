@@ -1,4 +1,5 @@
 import { configActions } from "@/store/configSlice";
+import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux"
 
 export default function Header() {
@@ -9,10 +10,12 @@ export default function Header() {
         dispatch(configActions.toggleMode())
     }
     return (
-        <header>
+        <header className="shadow-sm">
             <div className="container">
                 <div className="d-flex gap-3 flex-wrap justify-content-between align-items-center py-4">
-                    <h4 className="fw-800">Where in the world?</h4>
+                    <Link href="/">
+                        <h4 className="fw-800">Where in the world?</h4>
+                    </Link>
                     <button className={`btn rounded-pill btn-outline-${mode === 'light' ? 'dark' : 'light'} no-transition fw-500`} onClick={toggleTheme}>
                         {mode === 'light' ?
                             <>
