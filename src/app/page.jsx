@@ -22,7 +22,7 @@ export default function Home() {
     'oceania',
   ]
 
-  useEffectMounted(() => {
+  useEffect(() => {
     fetchList();
   }, [])
 

@@ -32,7 +32,7 @@ export default function itemPage() {
             setLoading(false)
         })
     }
-    useEffectMounted(() => {
+    useEffect(() => {
         fetchItem()
     }, [])
 
