@@ -2,6 +2,8 @@ import StoreProvider from "@/store/StoreProvider";
 import "@/styles/globals.scss";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
 
+import { GoogleAnalytics } from '@next/third-parties/google';
+
 export const metadata = {
   title: "REST Countries API",
   description: "Frontend Mentor Challenge",
@@ -10,12 +12,16 @@ export const metadata = {
 export default function RootLayout({ children }) {
 
   return (
-    <StoreProvider>
+    <>
+      <StoreProvider>
 
-      <DefaultLayout>
-        {children}
-      </DefaultLayout>
+        <DefaultLayout>
+          {children}
+        </DefaultLayout>
 
-    </StoreProvider>
+      </StoreProvider>
+
+      <GoogleAnalytics gaId="G-GF4VKTYWKG" />
+    </>
   );
 }
