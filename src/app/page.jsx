@@ -61,6 +61,9 @@ export default function Home() {
   useEffect(() => {
     handleSearch(filter.name);
   }, [filter.name, list]);
+  useEffect(() => {
+    fetchList();
+  }, [filter.region])
 
   // Variants for item animation
   const itemVariants = {
@@ -82,7 +85,7 @@ export default function Home() {
           </div>
         </div>
         <div className="col-12 col-lg-2">
-          <select className="form-select px-4 py-3" value={filter.region} onChange={(e) => { setFilter((prev) => { return { ...prev, region: e.target.value } }); fetchList() }}>
+          <select className="form-select px-4 py-3" value={filter.region} onChange={(e) => { setFilter((prev) => { return { ...prev, region: e.target.value } }) }}>
             <option value="">Filter by Region</option>
             {
               regionOptions.map((item, i) =>
