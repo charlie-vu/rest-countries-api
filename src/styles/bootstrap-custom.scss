@@ -1,7 +1,16 @@
 @import "bootstrap/scss/functions";
 
-$light: hsl(0, 0%, 99%);
-$dark: hsl(207, 26%, 17%);
+$element-light: hsl(0, 100%, 100%);
+$bg-light: hsl(0, 0%, 99%);
+$text-light: hsl(200, 15%, 8%);
+$input-light: hsl(0, 0%, 50%);
+
+$element-dark: hsl(209, 23%, 22%);
+$bg-dark: hsl(207, 26%, 17%);
+$text-dark: hsl(0, 100%, 100%);
+
+$light: $element-light;
+$dark: $element-dark;
 
 // $enable-placeholder: true;
 
@@ -19,3 +28,46 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
+//====== Light - Dark
+$color-mode-type: data;
+@include color-mode(light) {
+  body {
+    background-color: $bg-light;
+    color: $text-light;
+  }
+  .element {
+    background-color: $element-light !important;
+    color: $text-light !important;
+  }
+}
+@include color-mode(dark) {
+  body {
+    background-color: $bg-dark;
+    color: $text-dark;
+  }
+  .element {
+    background-color: $element-dark !important;
+    color: $text-dark !important;
+  }
+}
+// ======
+
+// ====== Enable Responsive
+// @import "bootstrap/scss/functions";
+// @import "bootstrap/scss/variables";
+// @import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+// @import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+
+$utilities: map-merge(
+  $utilities,
+  (
+    "font-size": map-merge(
+      map-get($utilities, "font-size"),
+      ( responsive: true ),
+    ),
+  )
+);
+
+@import "bootstrap/scss/utilities/api";

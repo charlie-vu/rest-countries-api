@@ -8,10 +8,11 @@ export default function Item(props) {
     const flags = item?.flags;
     const pop = item?.population;
     const region = item?.region;
-    const capital = item?.capital[0]
+    const capital = item?.capital[0];
+    const cca3 = item?.cca3;
 
     return (
-        <Link href={`/${name}`}>
+        <Link href={`/${cca3}`}>
             <div className="card overflow-hidden h-100 hover-jump">
                 <div className="ratio ratio-16x9 overflow-hidden shadow-sm">
                     <img src={flags.svg} alt={flags.alt} className="object-fit-cover" />

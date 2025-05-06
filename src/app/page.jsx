@@ -30,8 +30,8 @@ export default function Home() {
     setShowList([])
 
     setLoading(true)
-    api.get(`/${filter.region ? `region/${filter.region}` : 'all'}?fields=name,flags,population,region,capital`).then((res) => {
-      console.log(res.data)
+    api.get(`/${filter.region ? `region/${filter.region}` : 'all'}?fields=name,flags,population,region,capital,cca3`).then((res) => {
+      // console.log(res.data)
       setList(res.data)
     }).catch((e) => {
       console.log(e)
@@ -86,12 +86,12 @@ export default function Home() {
 
       {
         loading ?
-          <div className="spinner-grow m-5"></div>
+          <div className="spinner-grow mt-5"></div>
           :
           !showList.length ?
-            <p className="text-danger fw-800 mt-5">No Item Found!</p>
+            <p className="text-danger fw-800 mt-5 fs-4">No Item Found!</p>
             :
-            <div className="row row-cols-1 row-cols-lg-4 g-5 mt-1">
+            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 gy-5 gx-md-5 mt-1">
               {
                 showList.map((item, i) =>
                   <div key={`country-${i}`} className="col">
