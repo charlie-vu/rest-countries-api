@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 export default function itemPage() {
     const params = useParams();
-    const id = params.id;
+    const name = params.name;
 
     const mode = useSelector(state => state.config.mode)
 
@@ -21,7 +21,7 @@ export default function itemPage() {
             </button>
 
             <div className="mt-5">
-                Item {id}
+                Item {name}
 
             </div>
         </div>

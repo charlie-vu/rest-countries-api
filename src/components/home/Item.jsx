@@ -1,20 +1,30 @@
 import helper from "@/utils/helper";
+import Link from "next/link";
 
 export default function Item(props) {
 
-    return (
-        <div className="card overflow-hidden">
-            <div className="ratio ratio-16x9 overflow-hidden element">
+    const { item } = props;
+    const name = item?.name?.common;
+    const flags = item?.flags;
+    const pop = item?.population;
+    const region = item?.region;
+    const capital = item?.capital[0]
 
-            </div>
-            <div className="p-4 pb-5">
-                <h5 className="fw-800">Germany</h5>
-                <div className="mt-4 d-stack gap-2">
-                    <p>Population: {helper.displayNumber(123456789)}</p>
-                    <p>Population: {helper.displayNumber(123456789)}</p>
-                    <p>Population: {helper.displayNumber(123456789)}</p>
+    return (
+        <Link href={`/${name}`}>
+            <div className="card overflow-hidden h-100 hover-jump">
+                <div className="ratio ratio-16x9 overflow-hidden shadow-sm">
+                    <img src={flags.svg} alt={flags.alt} className="object-fit-cover" />
+                </div>
+                <div className="p-4">
+                    <h5 className="fw-800">{name}</h5>
+                    <div className="mt-3 d-stack gap-2">
+                        <p><strong>Population:</strong> {helper.displayNumber(pop)}</p>
+                        <p><strong>Region:</strong> {region}</p>
+                        <p><strong>Capital:</strong> {capital}</p>
+                    </div>
                 </div>
             </div>
-        </div>
+        </Link>
     )
 }
