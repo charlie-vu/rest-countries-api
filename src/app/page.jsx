@@ -54,7 +54,7 @@ export default function Home() {
   // )
 
   const handleSearch = (val) => {
-    setShowList(list.filter(item => new RegExp(val, 'i').test(item.name.common)))
+    setShowList(list.filter(item => new RegExp(val.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i').test(item.name.common)))
   }
 
   useEffect(() => {
@@ -65,10 +65,15 @@ export default function Home() {
     <div className="container py-5 page-home">
       <div className="row g-2 justify-content-between">
         <div className="col-12 col-lg-4">
-          <input type="text" className="form-control" value={filter.name} onChange={(e) => { setFilter((prev) => { return { ...prev, name: e.target.value } }) }} placeholder="Search for a country..." />
+          <div className="input-group">
+            <div className="input-group-text px-4 element">
+              <i className="bi bi-search"></i>
+            </div>
+            <input type="text" className="form-control py-3" value={filter.name} onChange={(e) => { setFilter((prev) => { return { ...prev, name: e.target.value } }) }} placeholder="Search for a country..." />
+          </div>
         </div>
         <div className="col-12 col-lg-2">
-          <select className="form-select" value={filter.region} onChange={(e) => { setFilter((prev) => { return { ...prev, region: e.target.value } }); fetchList() }}>
+          <select className="form-select px-4 py-3" value={filter.region} onChange={(e) => { setFilter((prev) => { return { ...prev, region: e.target.value } }); fetchList() }}>
             <option value="">Filter by Region</option>
             {
               regionOptions.map((item, i) =>

@@ -5,10 +5,10 @@
   padding: 0;
 }
 body {
-  transition: all 0.3s;
+  transition: background-color 0.3s;
 }
 
-// Light - Dark
+//====== Light - Dark
 $element-light: hsl(0, 100%, 100%);
 $bg-light: hsl(0, 0%, 99%);
 $text-light: hsl(200, 15%, 8%);
@@ -19,7 +19,6 @@ $bg-dark: hsl(207, 26%, 17%);
 $text-dark: hsl(0, 100%, 100%);
 
 $color-mode-type: data;
-
 @include color-mode(light) {
   body {
     background-color: $bg-light;
@@ -40,6 +39,7 @@ $color-mode-type: data;
     color: $text-dark !important;
   }
 }
+// ======
 
 h1,
 h2,
@@ -58,6 +58,12 @@ p {
 a {
   text-decoration: none;
   color: inherit;
+}
+.form-control,
+.form-select {
+  &:focus {
+    box-shadow: none;
+  }
 }
 
 .cursor-pointer {
