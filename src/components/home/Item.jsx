@@ -13,7 +13,7 @@ export default function Item(props) {
 
     return (
         <Link href={`/${cca3}`}>
-            <div className="card overflow-hidden h-100 hover-jump">
+            <div className="card overflow-hidden h-100 hover-jump border-0 shadow-sm">
                 <div className="ratio ratio-16x9 overflow-hidden shadow-sm">
                     <img src={flags.svg} alt={flags.alt} className="object-fit-cover" />
                 </div>
