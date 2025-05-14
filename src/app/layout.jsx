@@ -21,8 +21,8 @@ export default function RootLayout({ children }) {
 
       </StoreProvider>
 
-      <GoogleAnalytics gaId="G-422226RLK6" />
-      {/* <GoogleAnalytics gaId="G-HZE71CQT7R" /> */}
+      {/* <GoogleAnalytics gaId="G-422226RLK6" /> */}
+      <GoogleAnalytics gaId="G-HZE71CQT7R" />
     </>
   );
 }
