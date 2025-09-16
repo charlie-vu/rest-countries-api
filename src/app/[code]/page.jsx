@@ -1,4 +1,5 @@
 'use client'
+import Skeleton from "@/components/ui/skeleton";
 import { useEffectMounted } from "@/hooks/utils";
 import api from "@/plugins/axios";
 import helper from "@/utils/helper";
@@ -64,9 +65,32 @@ export default function itemPage() {
 
             {
                 loading ?
-                    <div className="spinner-grow mt-5"></div> :
+
+                    // <div className="spinner-grow mt-5"></div>
+                    <div className="row gy-5 gx-md-5 mt-1">
+                        <div className="col col-12 col-lg-5">
+                            <Skeleton minHeight={400} />
+                        </div>
+                        <div className="col">
+                            <div className="p-lg-5">
+                                <div className="placeholder-glow">
+                                    <h2 className="placeholder col-12"></h2>
+                                </div>
+                                {[...Array(5)].map((_, i) =>
+                                    <div key={`placeholder-${i}`} className="placeholder-glow d-flex justify-content-between mt-3">
+                                        <h4 className="placeholder col-4"></h4>
+                                        <h4 className="placeholder col-7"></h4>
+                                    </div>
+                                )}
+
+                            </div>
+                        </div>
+                    </div>
+
+                    :
                     !item ?
-                        <p className="mt-5 fs-4 fw-800">No Item Found!</p> :
+                        <p className="mt-5 fs-4 fw-800">No Item Found!</p>
+                        :
                         <div className="row gy-5 gx-md-5 mt-1">
                             <div className="col col-12 col-lg-5">
                                 <div className="h-100 d-flex align-items-center">
