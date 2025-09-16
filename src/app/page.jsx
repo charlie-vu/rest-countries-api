@@ -1,10 +1,12 @@
 'use client'
 import Item from "@/components/home/Item";
+import Skeleton from "@/components/ui/skeleton";
 import { useEffectMounted } from "@/hooks/utils";
 import api from "@/plugins/axios";
 import { AnimatePresence, motion } from "framer-motion";
 import _ from "lodash";
-import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import { useCallback, useEffect, useState } from "react";
 
 export default function Home() {
   const [loading, setLoading] = useState(true)
@@ -14,6 +16,7 @@ export default function Home() {
     name: '',
     region: '',
   })
+  const [hasFetched, setHasFetched] = useState(false)
   const regionOptions = [
     'africa',
     'america',
@@ -27,10 +30,9 @@ export default function Home() {
   }, [])
 
   const fetchList = () => {
+    setLoading(true)
     setList([])
     setShowList([])
-
-    setLoading(true)
     api.get(`/${filter.region ? `region/${filter.region}` : 'all'}?fields=name,flags,population,region,capital,cca3`).then((res) => {
       // console.log(res.data)
       setList(res.data)
@@ -39,24 +41,23 @@ export default function Home() {
     }).finally(() => {
       setTimeout(() => {
         setLoading(false)
-      }, 300);
+      }, 500);
     })
   }
 
   // ====== Debounce Search
-  // const handleSearch = useCallback(
-  //   _.debounce((val) => {
-  //     console.log(`SEARCHING::`, val);
+  const handleSearch = useCallback(
+    _.debounce((val) => {
+      setShowList(list.filter(item =>
+        new RegExp(val.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i').test(item.name.common)
+      ));
+    }, 500),
+    [list]
+  );
 
-  //     setShowList(list.filter(item => new RegExp(val).test(item.name.common)))
-  //     console.log(showList)
-
-  //   }, 500), []
-  // )
-
-  const handleSearch = (val) => {
-    setShowList(list.filter(item => new RegExp(val.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i').test(item.name.common)))
-  }
+  // const handleSearch = (val) => {
+  //   setShowList(list.filter(item => new RegExp(val.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i').test(item.name.common)))
+  // }
 
   useEffect(() => {
     handleSearch(filter.name);
@@ -98,9 +99,28 @@ export default function Home() {
 
       {
         loading ?
-          <div className="spinner-grow mt-5"></div>
+          // <div className="spinner-grow mt-5"></div>
+
+          <div className="card border-0 shadow-sm mt-5 overflow-hidden" aria-hidden="true" style={{ maxWidth: 300 }}>
+            <div className="ratio ratio-16x9 shadow-sm">
+              <Skeleton />
+            </div>
+            <div className="p-4">
+              <h5 className="card-title placeholder-glow">
+                <span className="placeholder col-12"></span>
+              </h5>
+              <p className="card-text placeholder-glow">
+                <span className="placeholder col-7"></span>
+                <span className="placeholder col-4"></span>
+                <span className="placeholder col-4"></span>
+                <span className="placeholder col-6"></span>
+                <span className="placeholder col-8"></span>
+              </p>
+            </div>
+          </div>
+
           :
-          !showList.length ?
+          !showList.length && !!filter.name ?
             <p className="text-danger fw-800 mt-5 fs-4">No Item Found!</p>
             :
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 gy-5 gx-md-5 mt-1">

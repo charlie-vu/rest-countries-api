@@ -1,4 +1,5 @@
 import helper from "@/utils/helper";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Item(props) {
@@ -15,7 +16,8 @@ export default function Item(props) {
         <Link href={`/${cca3}`}>
             <div className="card overflow-hidden h-100 hover-jump border-0 shadow-sm">
                 <div className="ratio ratio-16x9 overflow-hidden shadow-sm">
-                    <img src={flags.svg} alt={flags.alt} className="object-fit-cover" />
+                    <Image src={flags.svg} alt={flags.alt} width={500} height={500} className="object-fit-cover" />
+                    {/* <img src={flags.svg} alt={flags.alt} className="object-fit-cover" /> */}
                 </div>
                 <div className="p-4">
                     <h5 className="fw-800">{name}</h5>

@@ -1,3 +1,16 @@
 .min-w-120px {
   min-width: 120px !important;
 }
+.min-h-300px {
+  min-height: 300px !important;
+}
+.d-flex {
+  &.center {
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.w-fit{
+  width: fit-content !important;
+}
