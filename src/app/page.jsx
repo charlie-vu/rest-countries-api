@@ -1,11 +1,9 @@
 'use client'
 import Item from "@/components/home/Item";
 import Skeleton from "@/components/ui/skeleton";
-import { useEffectMounted } from "@/hooks/utils";
 import api from "@/plugins/axios";
 import { AnimatePresence, motion } from "framer-motion";
 import _ from "lodash";
-import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
 
 export default function Home() {
@@ -16,7 +14,9 @@ export default function Home() {
     name: '',
     region: '',
   })
-  const [hasFetched, setHasFetched] = useState(false)
+
+  const [error, setError] = useState('')
+
   const regionOptions = [
     'africa',
     'america',
@@ -38,6 +38,7 @@ export default function Home() {
       setList(res.data)
     }).catch((e) => {
       console.log(e)
+      setError('Failed to load countries. Please try again.')
     }).finally(() => {
       setTimeout(() => {
         setLoading(false)
@@ -60,8 +61,13 @@ export default function Home() {
   // }
 
   useEffect(() => {
-    handleSearch(filter.name);
-  }, [filter.name, list]);
+    handleSearch(filter.name)
+  }, [filter.name, list])
+
+  useEffect(() => {
+    return () => handleSearch.cancel();
+  }, [handleSearch])
+
   useEffect(() => {
     fetchList();
   }, [filter.region])
@@ -75,18 +81,20 @@ export default function Home() {
   };
 
   return (
-    <div className="container py-5 page-home">
-      <div className="row g-2 justify-content-between">
+    <div className="container py-5 page-home" aria-busy={loading}>
+      <section aria-labelledby="country-filters" className="row g-2 justify-content-between">
         <div className="col-12 col-lg-4">
           <div className="input-group">
             <div className="input-group-text px-4 element">
               <i className="bi bi-search"></i>
             </div>
-            <input type="text" className="form-control py-3" value={filter.name} onChange={(e) => { setFilter((prev) => { return { ...prev, name: e.target.value } }) }} placeholder="Search for a country..." />
+            <label htmlFor="search" className="visually-hidden">Search for a country</label>
+            <input id="search" type="text" className="form-control py-3" value={filter.name} onChange={(e) => { setFilter((prev) => { return { ...prev, name: e.target.value } }) }} placeholder="Search for a country..." />
           </div>
         </div>
         <div className="col-12 col-lg-2">
-          <select className="form-select px-4 py-3" value={filter.region} onChange={(e) => { setFilter((prev) => { return { ...prev, region: e.target.value } }) }}>
+          <label htmlFor="region" className="visually-hidden">Filter countries by region</label>
+          <select id="region" className="form-select px-4 py-3" value={filter.region} onChange={(e) => { setFilter((prev) => { return { ...prev, region: e.target.value } }) }}>
             <option value="">Filter by Region</option>
             {
               regionOptions.map((item, i) =>
@@ -95,36 +103,39 @@ export default function Home() {
             }
           </select>
         </div>
-      </div>
+      </section>
 
-      {
-        loading ?
-          // <div className="spinner-grow mt-5"></div>
+      <section aria-labelledby="countries" className="mt-5">
+        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 gy-5 gx-md-5">
 
-          <div className="card border-0 shadow-sm mt-5 overflow-hidden" aria-hidden="true" style={{ maxWidth: 300 }}>
-            <div className="ratio ratio-16x9 shadow-sm">
-              <Skeleton />
-            </div>
-            <div className="p-4">
-              <h5 className="card-title placeholder-glow">
-                <span className="placeholder col-12"></span>
-              </h5>
-              <p className="card-text placeholder-glow">
-                <span className="placeholder col-7"></span>
-                <span className="placeholder col-4"></span>
-                <span className="placeholder col-4"></span>
-                <span className="placeholder col-6"></span>
-                <span className="placeholder col-8"></span>
-              </p>
-            </div>
-          </div>
+          {
+            loading ?
 
-          :
-          !showList.length && !!filter.name ?
-            <p className="text-danger fw-800 mt-5 fs-4">No Item Found!</p>
-            :
-            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 gy-5 gx-md-5 mt-1">
-              <AnimatePresence>
+              [...Array(8)].map((_, i) =>
+                <div key={`placeholder-${i}`} className="col">
+                  <div className="card overflow-hidden h-100 border-0 shadow-sm" aria-hidden="true">
+                    <div className="ratio ratio-16x9 shadow-sm">
+                      <Skeleton />
+                    </div>
+                    <div className="p-4">
+                      <h5 className="placeholder-glow">
+                        <span className="placeholder col-12"></span>
+                      </h5>
+                      <p className="placeholder-glow d-flex gap-2 flex-wrap mt-3">
+                        <span className="placeholder col-7"></span>
+                        <span className="placeholder col-4"></span>
+                        <span className="placeholder col-4"></span>
+                        <span className="placeholder col-6"></span>
+                        <span className="placeholder col-8"></span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )
+
+              :
+
+              <AnimatePresence mode="wait">
                 {
                   showList.map((item, i) =>
                     <motion.div
@@ -135,14 +146,31 @@ export default function Home() {
                       animate="visible"
                       exit="exit"
                       transition={{ duration: 0.3, delay: i % 8 * 0.05 }}
+                      layout
                     >
                       <Item item={item} />
                     </motion.div>
                   )
                 }
               </AnimatePresence>
-            </div>
-      }
+          }
+
+
+        </div>
+
+        {
+          error &&
+          <p role="alert" className="text-danger fw-800 mt-5 fs-4">{error}</p>
+        }
+
+        {
+          (!loading && !error && showList.length === 0 && filter.name) &&
+          <p role="status" className="text-danger fw-800 mt-5 fs-4">No Item Found!</p>
+        }
+
+      </section>
+
+
 
 
     </div>

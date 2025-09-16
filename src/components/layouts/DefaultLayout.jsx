@@ -26,7 +26,9 @@ export default function DefaultLayout({ children }) {
             <html lang="en" data-bs-theme={mode}>
                 <body>
                     <Header />
-                    {children}
+                    <main>
+                        {children}
+                    </main>
                 </body>
             </html> :
 
